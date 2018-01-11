@@ -1,0 +1,41 @@
+﻿
+@{
+   
+}
+@section scripts{
+    
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON("/projekti/getlist", null, function (json) {
+                var projektit = JSON.parse(json);
+                alert("asiakkaiden lkm: " + projektit.length);
+
+                var html = "";
+                for (var index = 0; index < projektit.length; index++) {
+                    html += "<tr>" +
+                                 "<td>" + projektit[index].ProjektiID + "</td>" +
+                                 "<td>" + projektit[index].Projektinimi + "</td>" +
+                        "</tr>\r\n";
+
+                    $("#projektiList tbody").html(html);
+
+                }
+            });
+        });
+    </script>
+    }
+
+<h2>Projektit</h2>
+
+<table class="table table-striped" id="projektiList">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Projekti-id</th>
+            <th>Projektinimi</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
