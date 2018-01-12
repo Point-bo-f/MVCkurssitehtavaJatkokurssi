@@ -43,15 +43,13 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult GetSingleCustomer(string id)
+        public JsonResult GetSingleProjekti(int id)
         {
-
-
-            int iid = int.Parse(id);
+            
             {
                 AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
                 var model = (from p in entities.Projektit
-                             where p.ProjektiID == iid
+                             where p.ProjektiID == id
                              select new
                              {
                                  ProjektiID = p.ProjektiID,
@@ -112,7 +110,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
 
             // etsitään id:n perusteella asiakasrivi kannasta
-            bool OK = false;
+            bool ok = false;
             Projektit dbItem = (from p in entities.Projektit
                                where p.ProjektiID == id
                                select p).FirstOrDefault();
@@ -121,11 +119,11 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                 // tietokannasta poisto
                 entities.Projektit.Remove(dbItem);
                 entities.SaveChanges();
-                OK = true;
+                ok = true;
             }
             entities.Dispose();
 
-            return Json(OK, JsonRequestBehavior.AllowGet);
+            return Json(ok, JsonRequestBehavior.AllowGet);
         }
     }
 }
