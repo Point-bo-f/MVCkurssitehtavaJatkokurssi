@@ -41,7 +41,7 @@
                 $(".glyphicon-trash").click(function () {
 
                     console.log("Poistoa klikattu");
-                    var projektiID = $(this).parent().parent().prev().prev().prev().prev().prev().text();
+                    var projektiID = $(this).parent().parent().prev().prev().text();
                     var ok = confirm("haluatko varmasti poistaa projektitiedot " + projektiID + "?");
 
                     if (ok == true) {

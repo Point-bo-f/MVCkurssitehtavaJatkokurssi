@@ -108,7 +108,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
         public ActionResult Delete(int id)
         {
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
-
+            
             // etsitään id:n perusteella asiakasrivi kannasta
             bool ok = false;
             Projektit dbItem = (from p in entities.Projektit
