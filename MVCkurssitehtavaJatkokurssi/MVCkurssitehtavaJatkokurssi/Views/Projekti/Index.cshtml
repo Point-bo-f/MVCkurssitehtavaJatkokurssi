@@ -13,8 +13,10 @@
                 var html = "";
                 for (var index = 0; index < projektit.length; index++) {
                     html += "<tr>" +
+                                 "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
                                  "<td>" + projektit[index].ProjektiID + "</td>" +
                                  "<td>" + projektit[index].Projektinimi + "</td>" +
+                                 "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                         "</tr>\r\n";
 
                     $("#projektiList tbody").html(html);
