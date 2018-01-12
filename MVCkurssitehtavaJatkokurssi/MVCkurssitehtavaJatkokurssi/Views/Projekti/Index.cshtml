@@ -5,7 +5,7 @@
 @section scripts{
 
     <script type="text/javascript">
-        $(function () {
+        $(function päivitäProjektilistaus() {
             $.getJSON("/projekti/getlist", null, function (json) {
                 var projektit = JSON.parse(json);
                 //alert("asiakkaiden lkm: " + projektit.length);
@@ -21,11 +21,86 @@
 
                     $("#projektiList tbody").html(html);
 
+                    // tietojen muokkaus
+                    $(".glyphicon-pencil").click(function () {
+                        // etsitään asiakkaan tiedot klikatulta riviltä
+                        var projektiId = $(this).parent().parent().next().text();
+                        //alert(customerId);
+
+                        // haetaan asiakkaan tiedot id:n perusteella
+                        $.getJSON("/projekti/getsingleprojekti/" + projektiId, null, function (json2) {
+                            var projekti = JSON.parse(json2);
+
+                            // kopioidaan tiedot ikkunaan
+                            $("#projektiModal_ProjId").val(projekti.ProjektiID);
+                            $("#customerModal_Projektinimi").val(projekti.Projektinimi;
+                          
+                            // näytetään ikkuna
+                            $("#projektiModalTitle").text("Muokkaa projektia");
+                            $("#projektiModalDialog").modal("show");
+                        });
+                    });
+
+                    // tietojen poisto
+                    $(".glyphicon-trash").click(function () {
+                        // etsitään asiakkaan tiedot klikatulta riviltä
+                        console.log("Poistoa klikattu");
+                        var projektiId = $(this).parent().parent().prev().prev().prev().prev().text();
+                        var ok = confirm("Haluatko varmasti poistaa projektin " + projektiId + "?");
+
+                        if (ok == true) {
+                            $.getJSON("/projekti/delete/" + projektiId, null, function (status) {
+                                if (status == true) {
+                                    alert("Projekti on nyt poistettu!");
+                                    päivitäProjektilistaus();
+                                }
+                                else {
+                                    alert("Poistaminen ei onnistunut, yritä uudelleen!");
+                                }
+                            });
+                        }
+                    });
+                });
+        }
+
+            // sivun alustaminen
+            $(function () {
+                päivitäProjektilistaus
+
+                $("#addNewProjektiButton").click(function () {
+
+                    // tyhjennetään ikkunan tiedot
+                    $("#projektiModal_ProjId").val("(uusi)");
+                    $("#projektiModal_Projektinimi").val("");
                     
+                    $("#projektiModalTitle").text("Lisää uusi projekti");
+                    $("#projektiModalDialog").modal("show");
+                });
 
+                $("#projektiModalSaveButton").click(function () {
+                    // luetaan käyttäjän syöttämät kentät
+                    var details = {
+                        ProjektiID: $("#projektiModal_ProjId").val(),
+                        Projektinimi: $("#projektiModal_Projektinimi").val(),
 
+                    };
 
-</script>
+                    $.post("/projekti/update/", details, function (status) {
+                        if (status == true) {
+                            alert("Uudet tiedot tallennettu!");
+                            $("#projektiModalDialog").modal("hide");
+                            päivitäProjektilistaus;
+                        }
+                        else {
+                            alert("Tallennus ei onnistunut, yritä uudelleen!");
+                        }
+                    });
+                });
+
+                console.log("Alustus valmis!");
+            });
+    </script>
+
 }
 
 <h2>Projektit</h2>
@@ -51,12 +126,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">Projekti-id</div>
-                    <div class="col-md-6"><input class="form-control" id="projektiModal_CustId" type="text" readonly></div>
+                    <div class="col-md-6"><input class="form-control" id="projektiModal_ProjId" type="text" readonly></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">Projektinimi</div>
                     <div class="col-md-6"><input class="form-control" id="customerModal_Projektinimi" type="text"></div>
-                </div>               
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
