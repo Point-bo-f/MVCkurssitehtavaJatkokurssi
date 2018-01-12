@@ -33,7 +33,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                          select new
                          {
                              ProjektiID = p.ProjektiID,
-                             Projektinimi = p.Projektinimi,
+                             Projektinimi = p.Projektinimi
                              
                          }).ToList();
 
@@ -42,6 +42,90 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
 
             return Json(json, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult GetSingleCustomer(string id)
+        {
+
+
+            int iid = int.Parse(id);
+            {
+                AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
+                var model = (from p in entities.Projektit
+                             where p.ProjektiID == iid
+                             select new
+                             {
+                                 ProjektiID = p.ProjektiID,
+                                 Projektinimi = p.Projektinimi,
+                             }).FirstOrDefault();
+
+                string json = JsonConvert.SerializeObject(model);
+                entities.Dispose();
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Update(Projektit proj)
+        {
+            AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
+            
+            bool OK = false;
+
+            // onko kyseessä muokkaus vai uuden lisääminen?
+            if (proj.ProjektiID == 0)
+            {
+                // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
+                Projektit dbItem = new Projektit()
+                {
+                    
+                    Projektinimi = proj.Projektinimi
+                   
+                };
+
+                // tallennus tietokantaan
+                entities.Projektit.Add(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+            else
+            {
+                // muokkaus, haetaan id:n perusteella riviä tietokannasta
+                Projektit dbItem = (from p in entities.Projektit
+                                   where p.ProjektiID == proj.ProjektiID
+                                   select p).FirstOrDefault();
+                if (dbItem != null)
+                {
+                    dbItem.Projektinimi = proj.Projektinimi;
+                    
+                    // tallennus tietokantaan
+                    entities.SaveChanges();
+                    OK = true;
+                }
+            }
+            entities.Dispose();
+
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
+
+            // etsitään id:n perusteella asiakasrivi kannasta
+            bool OK = false;
+            Projektit dbItem = (from p in entities.Projektit
+                               where p.ProjektiID == id
+                               select p).FirstOrDefault();
+            if (dbItem != null)
+            {
+                // tietokannasta poisto
+                entities.Projektit.Remove(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+            entities.Dispose();
+
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }
