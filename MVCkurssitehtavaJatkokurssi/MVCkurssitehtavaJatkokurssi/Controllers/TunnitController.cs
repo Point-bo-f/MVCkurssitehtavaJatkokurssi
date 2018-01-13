@@ -8,12 +8,12 @@ using System.Web.Mvc;
 
 namespace MVCkurssitehtavaJatkokurssi.Controllers
 {
-    public class HenkiloController : Controller
+    public class TunnitController : Controller
     {
         public ActionResult Index2()
         {
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
-            List<Henkilot> model = entities.Henkilot.ToList();
+            List<Tunnit> model = entities.Tunnit.ToList();
             entities.Dispose();
 
             return View(model);
@@ -29,14 +29,14 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
             //List<Projektit> model = entities.Projektit.ToList();
 
-            var model = (from h in entities.Henkilot
+            var model = (from t in entities.Tunnit
                          select new
                          {
-                             HenkiloID = h.HenkiloID,
-                             Etunimi = h.Etunimi,
-                             Sukunimi = h.Sukunimi,
-                             Osoite = h.Osoite,
-                             Esimies = h.Esimies
+                             TuntiID = t.TuntiID,
+                             ProjektiID = t.ProjektiID,
+                             HenkiloID = t.HenkiloID,
+                             Pvm = t.Pvm,
+                             Projektitunnit = t.Projektitunnit
 
                          }).ToList();
 
@@ -46,20 +46,20 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult GetSingleHenkilo(int id)
+        public JsonResult GetSingleTunti(int id)
         {
 
             {
                 AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
-                var model = (from h in entities.Henkilot
-                             where h.HenkiloID == id
+                var model = (from t in entities.Tunnit
+                             where t.TuntiID == id
                              select new
                              {
-                                 HenkiloID = h.HenkiloID,
-                                 Etunimi = h.Etunimi,
-                                 Sukunimi = h.Sukunimi,
-                                 Osoite = h.Osoite,
-                                 Esimies = h.Esimies
+                                 TuntiID = t.TuntiID,
+                                 ProjektiID = t.ProjektiID,
+                                 HenkiloID = t.HenkiloID,
+                                 Pvm = t.Pvm,
+                                 Projektitunnit = t.Projektitunnit, 
                              }).FirstOrDefault();
 
                 string json = JsonConvert.SerializeObject(model);
@@ -69,44 +69,43 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             }
         }
 
-        public ActionResult Update(Henkilot henk)
+        public ActionResult Update(Tunnit tunt)
         {
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
 
             bool OK = false;
 
             // onko kyseessä muokkaus vai uuden lisääminen?
-            if (henk.HenkiloID.ToString() == ("uusi"))
+            if (tunt.TuntiID == 0)
             {
                 // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
-                Henkilot dbItem = new Henkilot()
+                Tunnit dbItem = new Tunnit()
                 {
 
-                    Etunimi = henk.Etunimi,
-                    Sukunimi = henk.Sukunimi,
-                    Osoite = henk.Osoite,
-                    Esimies = henk.Esimies
+                    ProjektiID = tunt.ProjektiID,
+                    HenkiloID = tunt.HenkiloID,
+                    Pvm = tunt.Pvm,
+                    Projektitunnit = tunt.Projektitunnit
 
                 };
 
                 // tallennus tietokantaan
-                entities.Henkilot.Add(dbItem);
+                entities.Tunnit.Add(dbItem);
                 entities.SaveChanges();
                 OK = true;
             }
             else
             {
                 // muokkaus, haetaan id:n perusteella riviä tietokannasta
-                Henkilot dbItem = (from h in entities.Henkilot
-                                    where h.HenkiloID == henk.HenkiloID
-                                    select h).FirstOrDefault();
+                Tunnit dbItem = (from t in entities.Tunnit
+                                    where t.TuntiID == tunt.TuntiID
+                                    select t).FirstOrDefault();
                 if (dbItem != null)
                 {
-                    dbItem.Etunimi = henk.Etunimi;
-                    dbItem.Sukunimi = henk.Sukunimi;
-                    dbItem.Osoite = henk.Osoite;
-                    dbItem.Esimies = henk.Esimies;
-                    
+                    dbItem.ProjektiID = tunt.TuntiID;
+                    dbItem.HenkiloID = tunt.HenkiloID;
+                    dbItem.Pvm = tunt.Pvm;
+                    dbItem.Projektitunnit = tunt.Projektitunnit;
 
                     // tallennus tietokantaan
                     entities.SaveChanges();
@@ -123,20 +122,20 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
 
             // etsitään id:n perusteella asiakasrivi kannasta
-            bool OK = false;
-            Henkilot dbItem = (from h in entities.Henkilot
-                                where h.HenkiloID == id
-                                select h).FirstOrDefault();
+            bool ok = false;
+            Tunnit dbItem = (from t in entities.Tunnit
+                                where t.TuntiID == id
+                                select t).FirstOrDefault();
             if (dbItem != null)
             {
                 // tietokannasta poisto
-                entities.Henkilot.Remove(dbItem);
+                entities.Tunnit.Remove(dbItem);
                 entities.SaveChanges();
-                OK = true;
+                ok = true;
             }
             entities.Dispose();
 
-            return Json(OK, JsonRequestBehavior.AllowGet);
+            return Json(ok, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -4,7 +4,7 @@
     <script type="text/javascript">
 
         function päivitäHenkilölistaus() {
-            $.getJSON("/henkilo/getlist", null, function (json) {
+            $.getJSON("/henkilo/getlist/", null, function (json) {
                 var henkilot = JSON.parse(json);
 
                 var html = "";
@@ -75,7 +75,7 @@
                 $("#henkiloModal_Osoite").val("");
                 $("#henkiloModal_Esimies").val("");
 
-                $("#henkiloModalTitle").text("Lisää uusi projekti");
+                $("#henkiloModalTitle").text("Lisää uusi henkilö");
                 $("#henkiloModalDialog").modal("show");
             });
 
