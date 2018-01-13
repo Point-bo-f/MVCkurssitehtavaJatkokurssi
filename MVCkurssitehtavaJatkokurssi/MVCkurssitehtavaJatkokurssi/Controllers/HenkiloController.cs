@@ -76,7 +76,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             bool OK = false;
 
             // onko kyseessä muokkaus vai uuden lisääminen?
-            if (henk.HenkiloID.ToString() == ("uusi"))
+            if (henk.HenkiloID == 0)
             {
                 // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
                 Henkilot dbItem = new Henkilot()
@@ -123,7 +123,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
 
             // etsitään id:n perusteella asiakasrivi kannasta
-            bool OK = false;
+            bool ok = false;
             Henkilot dbItem = (from h in entities.Henkilot
                                 where h.HenkiloID == id
                                 select h).FirstOrDefault();
@@ -132,11 +132,11 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                 // tietokannasta poisto
                 entities.Henkilot.Remove(dbItem);
                 entities.SaveChanges();
-                OK = true;
+                ok = true;
             }
             entities.Dispose();
 
-            return Json(OK, JsonRequestBehavior.AllowGet);
+            return Json(ok, JsonRequestBehavior.AllowGet);
         }
     }
 }

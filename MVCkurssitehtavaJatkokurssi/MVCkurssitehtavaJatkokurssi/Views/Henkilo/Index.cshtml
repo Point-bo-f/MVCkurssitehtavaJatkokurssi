@@ -27,7 +27,7 @@
                     var henkiloId = $(this).parent().parent().next().text();
 
                     $.getJSON("/henkilo/getsinglehenkilo/" + henkiloId, null, function (json2) {
-                        var henkilo = JSON.parse(json);
+                        var henkilo = JSON.parse(json2);
                         
                         // kopioidaan tiedot ikkunaan
                         $("#henkiloModal_ProjektiID").val(henkilo.HenkiloID);
@@ -136,7 +136,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-3">Henkilö-id</div>
+                    <div class="col-md-3">HenkilöId</div>
                     <div class="col-md-6"><input class="form-control" id="henkiloModal_HenkiloID" type="text" readonly></div>
                 </div>
                 <div class="row">

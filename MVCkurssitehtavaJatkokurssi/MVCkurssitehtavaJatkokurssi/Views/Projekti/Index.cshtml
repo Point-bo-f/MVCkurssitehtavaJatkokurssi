@@ -25,7 +25,7 @@
                     var projektiId = $(this).parent().parent().next().text();
 
                     $.getJSON("/projekti/getsingleprojekti/" + projektiId, null, function (json2) {
-                        var projekti = JSON.parse(json);
+                        var projekti = JSON.parse(json2);
                         alert(projektiId)
                         // kopioidaan tiedot ikkunaan
                         $("#projektiModal_ProjektiID").val(projekti.ProjektiID);

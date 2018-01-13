@@ -28,8 +28,8 @@
                     var tuntiId = $(this).parent().parent().next().text();
 
                     $.getJSON("/tunnit/getsingletunti/" + tuntiId, null, function (json2) {
-                        var tunti = JSON.parse(json);
-                        alert(tuntiId)
+                        var tunti = JSON.parse(json2);
+                        
                         // kopioidaan tiedot ikkunaan
                         $("#tuntiModal_TuntiID").val(tunti.TuntiID);
                         $("#tuntiModal_ProjektiID").val(tunti.ProjektiID);
