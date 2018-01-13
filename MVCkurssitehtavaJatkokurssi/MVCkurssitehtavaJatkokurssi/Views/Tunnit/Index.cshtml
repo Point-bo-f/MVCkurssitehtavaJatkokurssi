@@ -48,7 +48,7 @@
 
                     console.log("Poistoa klikattu");
                     var tuntiID = $(this).parent().parent().prev().prev().prev().prev().prev().text();
-                    var ok = confirm("haluatko varmasti poistaa projektitiedot " + projektiID + "?");
+                    var ok = confirm("haluatko varmasti poistaa projektitiedot " + tuntiID + "?");
 
                     if (ok == true) {
                         $.getJSON("/tunnit/delete/" + tuntiID, null, function (status) {

@@ -102,7 +102,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                                     select t).FirstOrDefault();
                 if (dbItem != null)
                 {
-                    dbItem.ProjektiID = tunt.TuntiID;
+                    dbItem.ProjektiID = tunt.ProjektiID;
                     dbItem.HenkiloID = tunt.HenkiloID;
                     dbItem.Pvm = tunt.Pvm;
                     dbItem.Projektitunnit = tunt.Projektitunnit;
