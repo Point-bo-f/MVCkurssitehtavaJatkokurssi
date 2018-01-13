@@ -85,7 +85,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                     Etunimi = henk.Etunimi,
                     Sukunimi = henk.Sukunimi,
                     Osoite = henk.Osoite,
-                    Esimies = henk.Esimies,
+                    Esimies = henk.Esimies
 
                 };
 
