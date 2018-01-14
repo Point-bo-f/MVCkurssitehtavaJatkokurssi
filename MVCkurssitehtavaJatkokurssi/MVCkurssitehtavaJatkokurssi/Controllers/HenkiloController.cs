@@ -72,7 +72,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
         public ActionResult Update(Henkilot henk)
         {
             AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
-
+            int id = henk.HenkiloID;
             bool OK = false;
 
             // onko kyseessä muokkaus vai uuden lisääminen?
@@ -98,7 +98,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             {
                 // muokkaus, haetaan id:n perusteella riviä tietokannasta
                 Henkilot dbItem = (from h in entities.Henkilot
-                                    where h.HenkiloID == henk.HenkiloID
+                                    where h.HenkiloID == id
                                     select h).FirstOrDefault();
                 if (dbItem != null)
                 {
