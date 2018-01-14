@@ -76,7 +76,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
             bool OK = false;
 
             // onko kyseessä muokkaus vai uuden lisääminen?
-            if (tunt.TuntiID.ToString() == ("uusi"))
+            if (tunt.TuntiID == 0)
             {
                 // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
                 Tunnit dbItem = new Tunnit()

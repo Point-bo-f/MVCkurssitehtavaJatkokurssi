@@ -48,7 +48,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
         }
         public JsonResult GetSingleHenkilo(int id)
         {
-
+            
             {
                 AsiakastietokantaEntities entities = new AsiakastietokantaEntities();
                 var model = (from h in entities.Henkilot
@@ -59,7 +59,7 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                                  Etunimi = h.Etunimi,
                                  Sukunimi = h.Sukunimi,
                                  Osoite = h.Osoite,
-                                 Esimies = h.Esimies
+                                 Esimies = h.Esimies,
                              }).FirstOrDefault();
 
                 string json = JsonConvert.SerializeObject(model);
@@ -106,7 +106,6 @@ namespace MVCkurssitehtavaJatkokurssi.Controllers
                     dbItem.Sukunimi = henk.Sukunimi;
                     dbItem.Osoite = henk.Osoite;
                     dbItem.Esimies = henk.Esimies;
-                    
 
                     // tallennus tietokantaan
                     entities.SaveChanges();
