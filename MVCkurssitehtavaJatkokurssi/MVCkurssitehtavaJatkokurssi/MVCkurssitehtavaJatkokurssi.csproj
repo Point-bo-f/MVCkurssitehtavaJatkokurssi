@@ -212,6 +212,7 @@
     <Content Include="Models\AsiakastietokantaModel.edmx.diagram">
       <DependentUpon>AsiakastietokantaModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\MVCkurssitehtavaJatkokurssi20180114092043 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
